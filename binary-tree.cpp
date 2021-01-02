@@ -7,6 +7,13 @@
 *  Lesson: When in doubt, DON'T be stylish/concise. 
 */
 
+/* 
+Definition of Pre-order, Post-order, In-order used: (Competitive Programmer's Handbook, by Antti Laaksonen - pg. 139)
+a. n-order: first traverse the left subtree, then process the root, then traversethe right subtree
+b. pre-order:  first  process  the  root,  then  traverse  the  left  subtree,  thentraverse the right subtree
+c. post-order: first traverse the left subtree, then traverse the right subtree,then process the root
+*/
+
 #include<bits/stdc++.h>
 
 using namespace std;
@@ -45,6 +52,26 @@ void in_order(struct node* n) {
     in_order(n->left);
     cout << n->content << " ";
     in_order(n->right);
+}
+
+void efficient_pre_order(struct node* n) {
+    stack<struct node*> pointers;
+    pointers.push(n);
+
+    struct node* curr;
+    while (!pointers.empty()) {
+        curr = pointers.top();
+        cout << curr->content << " ";
+        pointers.pop();
+
+
+        if (curr->right != NULL) {
+            pointers.push(curr->right);
+        }
+        if (curr->left != NULL) {
+            pointers.push(curr->left);
+        }
+    }
 }
 
 int main() {
@@ -89,5 +116,9 @@ int main() {
 
     cout << "In order: ";
     in_order(start);
+    cout << endl;
+
+    cout << "Efficient pre order: ";
+    efficient_pre_order(start);
     cout << endl;
 }
