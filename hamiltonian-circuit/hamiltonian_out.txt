@@ -1,9 +1,0 @@
-desmond@Desmond-i5:~/ICO-Practice$ time echo "8" | ./a.out > hamiltonian_out.txt
-
-
-8
-^C
-
-real    522m43.933s
-user    522m42.919s
-sys     0m1.001s
