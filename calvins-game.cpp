@@ -37,6 +37,7 @@ int main() {
     printf("larget_forward_index = %ld\n", larget_forward_index);
     #endif
 
+    sol[k] = a[k];
     // Backward phase (starting point at most < n, atleast = k)
     for (int i = larget_forward_index - 1; i >= 0; i--) {
         #ifdef DEBUG
