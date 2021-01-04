@@ -36,11 +36,11 @@ int Forward (int n) {
 }
 
 int Backward (int n) {
-    if (n < 1)
+    if (n < 0)
         return -INT_MAX;
 
-    if (n == 1)
-        return BW[1] = A[1]; // base case
+    if (n == 0)
+        return BW[n] = A[n]; // base case
     
     if (BW[n] != -INT_MAX)
         return BW[n];
