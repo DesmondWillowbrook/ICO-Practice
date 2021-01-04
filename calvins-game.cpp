@@ -4,35 +4,52 @@
 
 using namespace std;
 
+#ifdef DEBUG
+void visualise_arr (int* arr, size_t n) {
+    for (size_t i = 0; i < n; i++) {
+        cout << arr[i] << " ";
+    }
+    cout << endl;
+}
+#endif
+
 int main() {
     size_t n, k;
     cin >> n >> k;
-    k--;
 
-    int a[n] = {0};
-    for (size_t i = 0; i < n; i++) {
+    int a[n + 4] = {0};
+    for (size_t i = 2; i < n + 2; i++) {
         cin >> a[i];
     }
 
-    int dp[n] = {0};
-    dp[k] = 0;
-    size_t pt_with_max_score = k;
+    k += 1; //get k to 2-based indexing ( 2 <= k <= n + 1)
 
-    if (k + 1 < n) {
-        dp[k + 1] = a[k + 1];
+    int sol[n + 4] = {0};
 
-        for (size_t i = k + 2; i < n; i++) {
-            dp[i] = max(dp[i - 1], dp[i - 2]) + a[i];
-            if (dp[i] > dp[pt_with_max_score]) {
-                pt_with_max_score = i;
-            }
-        }
+    for(size_t i = k + 1; i <= n + 1; i++) {
+        sol[i] = max(sol[i - 1], sol[i - 2]) + a[i];
     }
 
-    dp[k] = a[k];
-    for (size_t i = pt_with_max_score - 2; i >= 0; i++) {
-        dp[i] = max(dp[i + 1], dp[i + 2]) + a[i];
+    #ifdef DEBUG
+    visualise_arr(sol, n + 4);
+    #endif
+
+    sol[k] = a[k];
+    for (int i = n + 1; i > k; i--) {
+        sol[i] = max(sol[i], max(sol[i + 1], sol[i + 2]) + a[i]);
     }
 
+    #ifdef DEBUG
+    visualise_arr(sol, n + 4);
+    #endif
 
+    for (int i = k; i >= 2; i--) {
+        sol[i] = max(sol[i + 1], sol[i + 2]) + a[i];
+    }
+
+    #ifdef DEBUG
+    visualise_arr(sol, n + 4);
+    #endif
+
+    cout << sol[2] << endl;
 }
