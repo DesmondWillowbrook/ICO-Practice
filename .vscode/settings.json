@@ -8,6 +8,8 @@
         "istream": "cpp",
         "*.tcc": "cpp",
         "string_view": "cpp",
-        "cmath": "cpp"
+        "cmath": "cpp",
+        "array": "cpp",
+        "list": "cpp"
     }
 }
