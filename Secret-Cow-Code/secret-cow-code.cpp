@@ -4,33 +4,25 @@ using namespace std;
 
 string s;
 
-int lshift (int p) {
-    if (p - 1 < 0) {
-        return s.length() - 1;
-    } else {
-        return p - 1;
-    }
-}
-
-char F (long long int n) {
+char Anti_F (long long int n) {    
     if (n < s.length()) {
         return s.at(n);
     }
-    
-    // closest power of 2
-    int pos = n - (s.length() * pow(2, log2(n / s.length())));
 
-    #ifdef DEBUG
-    printf ("Pos is: %d\n", pos);
-    #endif
+	size_t length = s.length();
 
-    pos = lshift(pos);
-    n = (s.length() * (pow(2, log2(n / s.length())) - 1)) + pos;
+    // Finds separator
+    while(2 * length <= n) {
+        length *= 2;
+    }
 
-    #ifdef DEBUG
-    printf ("New N: F(%lld)\n", n);
-    #endif
-    return F (n);
+    // Handles case of shift from first position to last position in prev. iteration
+    if (length == n) {
+        return Anti_F(length - 1);
+    }
+
+    // N - Separator - 1: Yields position in prev. iteration
+    return Anti_F(n - length - 1);
 }
 
 int main () {
@@ -43,10 +35,11 @@ int main () {
 
     // shift to zero-based indexing
     n--;
+
     ofstream out;
     out.open("cowcode.out");
 
-    out << F(n) << endl;
+    out << Anti_F(n) << endl;
 
     out.close();
 }
