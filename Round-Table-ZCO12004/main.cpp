@@ -5,6 +5,15 @@ using namespace std;
 size_t N;
 uint dessert_cost [(size_t) 10e6];
 uint min_cost_sol [(size_t) 10e6];
+bool dessert_given [(size_t) 10e6];
+
+// Give dessert to nth knight or n + 1th knight?
+void give_dessert_to (int n) {
+    int first = n, second = n + 1;
+    if (first == -1) {
+        
+    }
+}
 
 // minimum cost, when we feed person at n
 uint min_cost (int n) {
@@ -33,7 +42,9 @@ int main () {
     printf ("\n");
     #endif
 
+    // It is guarenteed we are feeding 1st knight.
     min_cost (N - 1);
 
-    cout << min_cost_sol[N - 1] << endl;
+    if (N > 1) cout << min(min_cost_sol[N - 1] - dessert_cost[0], min_cost_sol[N - 2]) << endl;
+    else cout << min_cost_sol[N - 1] << endl;
 }
