@@ -23,7 +23,8 @@ int find_palin_len (int arr[], int i) {
         #endif
         ans.first--; ans.second++;
     }
-    return ans.second - ans.first;
+    return ans.second - ans.first + 1; //accounting for base case of no match, meaning length 1 palindrome
+                                       // And so on...
 }
 
 void search_palin (int arr[], int i) {
