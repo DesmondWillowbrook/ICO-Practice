@@ -13,7 +13,7 @@ int main () {
 
     size_t res = 0, ans = 0;
     for (size_t i = 0; i < N; i++) {
-        res = lower_bound (a, a + N, a[i] + K) - a; //get index number
+        res = lower_bound (a + i, a + N, a[i] + K) - a; //get index number
         #ifdef DEBUG
         if (res != N) printf ("Found least number >= %d + %ld: %d at index %ld\n", a[i], K, a[res], res);
         #endif
