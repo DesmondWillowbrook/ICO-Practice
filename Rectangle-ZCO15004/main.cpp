@@ -22,7 +22,7 @@ int find_end (pair<uint, uint>* arr, size_t ind) {
     
     // add answer until y of answer is less than of y of point.
     // since that is the point we cannot continue a rectangle anymore
-    for (; ans < N + 1 && arr[ans].second >= arr[ind].second; ans++);
+    for (; ans < N*2 + 2 && arr[ans].second >= arr[ind].second; ans++);
    
     #ifdef DEBUG
     printf ("Found end of (%d, %d) to be: (%d, %d) (ans: %ld)\n", arr[ind].first, arr[ind].second, arr[ans].first, arr[ans].second, ans);
@@ -48,16 +48,16 @@ int find_start (pair<uint, uint>* arr, int ind) {
 int main () {
     cin >> N;
 
-    pair<uint, uint> a[N + 2];
-    for (size_t i = 1; i < N + 1; i++) cin >> a[i].first >> a[i].second;
+    pair<uint, uint> a[N*2 + 2];
+    for (size_t i = 1; i < 2*N + 1; i += 2) {cin >> a[i].first >> a[i].second; a[i + 1] = {a[i].first, 500};}
     a[0] = {0, 500};
-    a[N + 1] = {100000, 500};
-    sort (a + 1, a + N + 1);
+    a[N*2 + 1] = {100000, 500};
+    sort (a + 1, a + N*2 + 1);
 
     // (1, 3), (1, 5), (2, 1), ...
     uint ans = 0;
 
-    for (size_t i = 0; i < N + 2; i++) {
+    for (size_t i = 0; i < N*2 + 2; i++) {
         uint start = a[find_start(a, i)].first;
         uint end = a[find_end(a, i)].first;
         ans = max(ans, calc_size(start, end, a[i].second));
