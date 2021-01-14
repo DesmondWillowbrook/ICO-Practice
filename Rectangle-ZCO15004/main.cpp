@@ -22,7 +22,7 @@ int find_end (pair<uint, uint>* arr, size_t ind) {
     
     // add answer until y of answer is less than of y of point.
     // since that is the point we cannot continue a rectangle anymore
-    for (; ans < N*2 + 2 && arr[ans].second >= arr[ind].second; ans++);
+    for (; ans < N*2 + 1 && arr[ans].second >= arr[ind].second; ans++);
    
     #ifdef DEBUG
     printf ("Found end of (%d, %d) to be: (%d, %d) (ans: %ld)\n", arr[ind].first, arr[ind].second, arr[ans].first, arr[ans].second, ans);
@@ -49,7 +49,7 @@ int main () {
     cin >> N;
 
     pair<uint, uint> a[N*2 + 2];
-    for (size_t i = 1; i < 2*N + 1; i += 2) {cin >> a[i].first >> a[i].second; a[i + 1] = {a[i].first, 500};}
+    for (size_t i = 1; i < 2*N; i += 2) {cin >> a[i].first >> a[i].second; a[i + 1] = {a[i].first, 500};}
     a[0] = {0, 500};
     a[N*2 + 1] = {100000, 500};
     sort (a + 1, a + N*2 + 1);
