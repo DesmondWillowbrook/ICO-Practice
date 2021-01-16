@@ -2,44 +2,40 @@
 
 using namespace std;
 
-size_t N, ans = 0;
+size_t N;
 unsigned long int T;
-
-unsigned long int sum (vector<pair<unsigned long int, unsigned long int>>::iterator i) {
-    return (*i).first + (*i).second;
-}
-
-unsigned long int sum_and_check (vector<pair<unsigned long int, unsigned long int>>::iterator i) {
-    return (*i).first + (*i).second;
-}
+unsigned long long int ans = 0;
 
 int main() {
     cin >> N >> T;
-    int arr[N];
-
+    unsigned long int arr[N];
     for (size_t i = 0; i < N; i++) cin >> arr[i];
-    sort (arr, arr + N);
+    vector<unsigned long int> freq_of_ind (T, 0);
 
-    vector<pair<unsigned long int, unsigned long int>> pairs;
-    for (size_t i = 0; i < N; i++)
-        for (size_t j = i + 1; j < N; j++)
-            pairs.push_back({arr[i], arr[j]});
-    sort (pairs.begin(), pairs.end());
+    for (size_t i = 0; i < N; i++) {
+        for (size_t j = i + 1; j < N; j++) {
+            if (arr[i] + arr[j] < T - 1) ans += freq_of_ind[T - (arr[i] + arr[j])];
+            #ifdef DEBUG
+            if (arr[i] + arr[j] < T - 1 && freq_of_ind[T - (arr[i] + arr[j])] > 0) {
+                printf ("Searching to complete (%ld, %ld) = %ld\n", arr[i], arr[j], arr[i] + arr[j]);
+                printf ("Ans (%lld) += %ld [%ld]\n", ans, freq_of_ind[T - (arr[i] + arr[j])], T - (arr[i] + arr[j]));
+            }
+            #endif
+        }
+        
+        for (size_t k = 0; k < i; k++) {
+            // update pairs data
+            if (arr[i] + arr[k] < T - 1) freq_of_ind[arr[i] + arr[k]]++;
+        }
 
-    #ifdef DEBUG
-    cout << "Pair Sums: \n";
-    for (auto ele: pairs) cout << ele << " ";
-    cout << endl;
-    #endif
-
-    auto left = pairs.begin(), right = --pairs.end();
-    while (left < right) {
-        while (sum(left) + sum(right) > T) right--;
-        if (sum(left) + sum(right) == T) ans++;
         #ifdef DEBUG
-        if (*left + *right == T) printf ("Pair: %ld, %ld == %ld\n", *left, *right, T);
+        size_t _index_ = 0;
+        while (freq_of_ind[_index_] == 0 && _index_ < T) _index_++;
+        cout << "Updated pairs: (" << arr[i] << ", x)" << endl;
+        for (; _index_ < T; _index_++)
+            printf ("%ld: %ld, ", _index_, freq_of_ind[_index_]);
+        cout << endl;
         #endif
-        left++;
     }
 
     cout << ans << endl;
