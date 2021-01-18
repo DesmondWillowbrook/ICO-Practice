@@ -2,12 +2,6 @@
 
 using namespace std;
 
-bool check_break (char s) {
-    if (s == ' ' || s == '\n' || s == ',' || s == '.' || s == ':' || s == ';' || s == '\'' )
-        return true;
-    return false;
-}
-
 int main () {
     int N;
     cin >> N;
