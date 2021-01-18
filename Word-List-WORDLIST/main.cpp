@@ -9,31 +9,26 @@ bool check_break (char s) {
 }
 
 int main () {
-    size_t N;
+    int N;
     cin >> N;
 
-    vector<string> ss {""};
-    
-    char c;
-    long unsigned int word_num = 0;
+    set<string> s;
+    char in = 0;
+    string word = "";
 
-    while (scanf ("%c", &c) != EOF) {
-        if (check_break(c)) {
-            if (ss.back() != "") {ss.push_back(""); word_num++;}
-            continue;
-        }
-        ss.back().push_back(tolower(c));
+    while (N >= 0) {
+        while (isalpha(in = getchar()))
+            word += tolower(in);
+        if (!word.empty()) {s.insert(word); word.clear();}
+
+        #ifdef DEBUG
+        printf ("N: %d\n", N);
+        #endif
+
+        if (in == '\n' || in == EOF) N--;
     }
-    // to account for case where last is punctuation
-    if (ss.back() == "") {word_num--; ss.pop_back();}
 
-    sort (ss.begin(), ss.end());
-
-    // remove duplicates
-    for (size_t i = 1; i < ss.size(); i++)
-        if (ss[i] == ss[i - 1]) ss[i] = "";
-
-    cout << word_num << endl;
-    for (string& str: ss)
-        if (str != "") cout << str << endl;
+    cout << s.size() << endl;
+    for (const string& str: s) 
+        cout << str << "\n";
 }
