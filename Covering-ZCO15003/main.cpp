@@ -3,6 +3,12 @@ Strategy:
 Sort ranges by start then end
 From first range, iterate until end of intersection and then increment answer
 
+We iterate through the sorted bounds
+We keep going through the bounds until
+the bound in which we need to place an element to satisfy ALL we have iterated through
+is no longer able to accomodate the next element.
+Then we know we MUST place a number there, so we increment ans by one,
+and then satisfy the next bounds.
 */
 
 #include<bits/stdc++.h>
