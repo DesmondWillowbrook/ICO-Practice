@@ -21,10 +21,6 @@ int main () {
             word += tolower(in);
         if (!word.empty()) {s.insert(word); word.clear();}
 
-        #ifdef DEBUG
-        printf ("N: %d\n", N);
-        #endif
-
         if (in == '\n' || in == EOF) N--;
     }
 
