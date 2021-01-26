@@ -65,7 +65,9 @@ int main() {
 
     uint ans = INT_MAX;
     for (uint i = 0; i < n; i++) {
-        // find value greater than time for opening of y
+        // Find first wormhole opening greater than time of start of contest
+        // assert! ("start - 1 will be most optimal value")
+
         auto start = lower_bound(v, v + x, contests[i].first);
         // incase val == contests[i].first was not found
         if (*start > contests[i].first) {start--;}
