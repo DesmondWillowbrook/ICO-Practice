@@ -1,3 +1,8 @@
+/*
+Gap day property of question is not clear...
+That is why sol. was wrong first time
+*/
+
 #include<bits/stdc++.h>
 
 using namespace std;
