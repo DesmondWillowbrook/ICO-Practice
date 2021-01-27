@@ -10,17 +10,18 @@ uint train (uint strength) {
     return pow(digit_sum, 3);
 }
 
-int dp [5000][5001], str[5001], xp[5000];
+long long int dp [5001][5001], str[5001], xp[5001];
 
-int maxXP (int n, int s) {
-    if (s > n || s < 0) return -INT_MAX;
-    if (dp[n][s] != -INT_MAX) return dp[n][s];
+long long int maxXP (long long int n, long long int s) {
+    if (s > n || s < 0) return -LONG_LONG_MAX;
+    if (dp[n][s] != -LONG_LONG_MAX) return dp[n][s];
 
     dp[n][s] =
-        max (/*train pokemon*/ maxXP (n - 1, s - 1), /*BATTLE*/ maxXP (n - 1, s) + (xp[n] * str[s]));
+        max (/*train pokemon*/ maxXP (n - 1, s - 1),
+            /*BATTLE*/ maxXP (n - 1, s) + (xp[n] * str[s]));
 
     #ifdef DEBUG
-    printf ("Calculating: (%d cities, trained %d times, i.e. str = %d) = %d\n", n, s, str[s], dp[n][s]);
+    printf ("Calculating: (%lld cities, trained %lld times, i.e. str = %lld) = %lld\n", n, s, str[s], dp[n][s]);
     #endif
 
     return dp [n][s];
@@ -43,13 +44,13 @@ int main () {
     cin >> str[0];
     for (size_t i = 1; i <= N; i++) str[i] = str[i - 1] + train(str[i - 1]);
     #ifdef DEBUG
-    for (size_t i = 0; i <= N; i++) printf ("Str. after training in %ld cities: %d\n", i, str[i]);
+    for (size_t i = 0; i <= N; i++) printf ("Str. after training in %ld cities: %lld\n", i, str[i]);
     #endif
 
     for (size_t i = 1; i <= N; i++) cin >> xp[i];
-    for (size_t i = 1; i <= N; i++) for (size_t j = 0; j <= N; j++) dp[i][j] = -INT_MAX;
+    for (size_t i = 1; i <= N; i++) for (size_t j = 0; j <= N; j++) dp[i][j] = -LONG_LONG_MAX;
 
-    int ans = 0;
+    long long int ans = 0;
     for (size_t i = 0; i <= N; i++) ans = max (ans, maxXP(N, i));
     cout << ans << endl;
 }
