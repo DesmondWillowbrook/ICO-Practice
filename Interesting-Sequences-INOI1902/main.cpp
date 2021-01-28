@@ -10,13 +10,18 @@ pair<uint, uint> a[3001];
 // with given cost.
 bool assert_lsc (size_t n, uint l, uint cost) {
     uint dp[n]; //DP[i] defined as max. length of subsequence when it ends at index i.
-    dp[0] = 1;
-
+    fill_n(dp, n, 1);
 
     for (size_t i = 0; i < n; i++) {
         for (size_t j = 0; j < i; j++) {
             if (abs ( (int) a[i].second - (int) a[j].second) >= cost) {
                 dp[i] = max(dp[i], 1 + dp[j]);
+                #ifdef DEBUG
+                if (dp[i] >= l) {
+                    for (size_t k = 0; k < n; k++) cout << dp[k] << " ";
+                    cout << endl;
+                }
+                #endif
                 if (dp[i] >= l) return true;
             }
         }
@@ -54,11 +59,11 @@ int main () {
             Handling non-equality cases:
         */
 
-        uint lo = 0, hi = l, mid;
+        uint lo = 0, hi = n - 1, mid;
         while (lo < hi) {
-            mid = lo + ((hi - lo) / 2);
+            mid = (hi + lo + 1) / 2;
             if (assert_lsc(n, l, mid))
-                lo = mid + 1;
+                lo = mid;
             else
                 hi = mid - 1;
         }
