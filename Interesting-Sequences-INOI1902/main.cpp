@@ -60,12 +60,29 @@ int main () {
         */
 
         uint lo = 0, hi = n - 1, mid;
+
+        // handling non-distinct elements
+        /*
+        Here, if we have two equal elements,
+        then best case where we have to use duplicates is:
+        A1, A2, A1, A2, ...
+        */
+        for (size_t i = 1; i < n; i++) {
+            if (a[i].first == a[i - 1].first)
+                lo = max ((int) lo, abs ((int) a[i].second - (int) a[i - 1].second));
+        }
+
         while (lo < hi) {
             mid = (hi + lo + 1) / 2;
+
             if (assert_lsc(n, l, mid))
                 lo = mid;
             else
                 hi = mid - 1;
+
+            #ifdef DEBUG
+            printf ("Checking %d: It is %d\n", mid, assert_lsc(n, l, mid));
+            #endif
         }
 
         cout << lo << endl;
