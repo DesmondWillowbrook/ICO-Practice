@@ -67,10 +67,13 @@ int main () {
         then best case where we have to use duplicates is:
         A1, A2, A1, A2, ...
         */
-        for (size_t i = 1; i < n; i++) {
-            if (a[i].first == a[i - 1].first)
-                lo = max ((int) lo, abs ((int) a[i].second - (int) a[i - 1].second));
-        }
+        for (size_t i = 0; i < n; i++)
+            for (size_t j = 0; j < n; j++) {
+                if (a[i].first == a[j].first)
+                    lo = max ((int) lo, abs ((int) a[i].second - (int) a[j].second));
+                else 
+                    break;
+            }
 
         while (lo < hi) {
             mid = (hi + lo + 1) / 2;
