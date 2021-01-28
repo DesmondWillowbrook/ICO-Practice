@@ -13,12 +13,7 @@ int main () {
 
     uint ans = 1;
     for (size_t i = 0; i < N; i++) {
-        if (a[i] >= ans) {
-            #ifdef DEBUG
-            printf ("a[%ld] (%d) >= %d\n", i, a[i], ans);
-            #endif
-            ans++;
-        }
+        if (a[i] >= ans) ans++;
     }
 
     // -1 to account for over-count in last iteration of loop
