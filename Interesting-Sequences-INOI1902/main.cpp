@@ -68,12 +68,8 @@ int main () {
         A1, A2, A1, A2, ...
         */
         for (size_t i = 0; i < n; i++)
-            for (size_t j = 0; j < n; j++) {
-                if (a[i].first == a[j].first)
-                    lo = max ((int) lo, abs ((int) a[i].second - (int) a[j].second));
-                else 
-                    break;
-            }
+            for (size_t j = i + 1; j < n && a[i].first == a[j].first; j++) 
+                lo = max ((int) lo, abs ((int) a[i].second - (int) a[j].second));
 
         while (lo < hi) {
             mid = (hi + lo + 1) / 2;
