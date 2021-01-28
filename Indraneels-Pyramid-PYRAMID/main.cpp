@@ -11,10 +11,16 @@ int main () {
 
     sort (a, a + N);
 
-    uint ans = 0;
-    for (size_t i = 1; i <= N; i++) {
-        if (a[i - 1] >= i) ans++;
+    uint ans = 1;
+    for (size_t i = 0; i < N; i++) {
+        if (a[i] >= ans) {
+            #ifdef DEBUG
+            printf ("a[%ld] (%d) >= %d\n", i, a[i], ans);
+            #endif
+            ans++;
+        }
     }
 
-    cout << ans << endl;
+    // -1 to account for over-count in last iteration of loop
+    cout << ans - 1 << endl;
 }
