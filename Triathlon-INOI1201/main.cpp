@@ -24,7 +24,8 @@ int main () {
         ans += cobol;
         min_end_trail = min (min_end_trail, b + c);
 
-        // for the possibility that a single task can be very very long.
+        // case where last citizen is NOT the citizen which finishes last
+        // i.e. case where b+c tasks of previous citizen goes on after the last citizen
         largest_task_end = max (largest_task_end, cobol + b + c);
     }
 
