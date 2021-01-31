@@ -15,7 +15,7 @@ bool is_valid (long unsigned int num) {
 
 int main () {
     long unsigned int MAX = 1000000000;
-    long unsigned int num; cin >> num;
+    long unsigned int num; cin >> num; num++;
 
     while (!is_valid(num) && num < MAX) num++;
 
