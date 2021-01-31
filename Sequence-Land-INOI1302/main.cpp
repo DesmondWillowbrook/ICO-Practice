@@ -20,6 +20,8 @@ int main () {
     cin >> N >> K;
 
     set<uint> s[N];
+
+    // Master set, i.e. pool of id's that are relatives of President
     set<uint> relative_set;
 
     for (size_t i = 0; i < N; i++) {
@@ -30,8 +32,15 @@ int main () {
         }
     }
 
+    // President's id
     set_union (relative_set.begin(), relative_set.end(),
                     s[0].begin(), s[0].end(), inserter(relative_set, relative_set.end()));
+
+    /*
+    Observation: We cannot find all relatives in one pass
+    So we keep making passes to find relatives until we have found all.
+    How do we know we have found all? When one complete pass results in no additions of relatives.
+    */
 
     bool change; uint ans = 1;
     do {
