@@ -3,7 +3,7 @@
 #include<bits/stdc++.h>
 
 using namespace std;
-#define forn(name, start, end) for (size_t name = start; i < end; i++)
+#define forn(name, start, end) for (size_t name = (start); i < (end); i++)
 
 #ifdef DEBUG
 void visualise_arr (int* arr, size_t n) {
@@ -51,7 +51,7 @@ int Backward (int n) {
 
 int main() {
     cin >> N >> K;
-    K--;
+    K--; // move to 0-based indexing
 
     fill_n(FW, N, -INT_MAX);
     fill_n(BW, N, -INT_MAX);
@@ -66,7 +66,9 @@ int main() {
     // find with path with highest end value
     int highest = -INT_MAX;
     forn(i, K, N) {
-        highest = max(highest, FW[i] - A[i] + BW[i]);
+        // - A[i] to eliminate double counting, i.e. BW[i] = BW[i + 1] + A[i]
+        // and FW[i] = FW[i - 1] + A[i]
+        highest = max(highest, FW[i] + BW[i] - A[i]);
     }
 
     cout << highest << endl;
