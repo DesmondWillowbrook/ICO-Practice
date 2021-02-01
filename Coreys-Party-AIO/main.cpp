@@ -9,7 +9,7 @@ bool is_edge (vector<uint>* arr, uint x, uint y) {
     return false;
 }
 
-void remove_friendship (vector<uint>* arr, uint x) {
+void remove_friend (vector<uint>* arr, uint x) {
     for (size_t i = 0; i < arr[x].size(); i++)
         for (size_t j = 0; j < arr[arr[x][j]].size(); j++) {
             if (arr[arr[x][i]][j] == arr[x][i]) {
@@ -29,6 +29,9 @@ size_t degree (vector<uint>* arr, uint x) {
 
 int main () {
     cin >> N >> M >> A >> B;
+
+    freopen ("partyin.txt", "r", stdin);
+    freopen ("partyout.txt", "w", stdout);
     
     vector<uint> friendship[N] = {{0}};
     for (size_t i = 0; i < M; i++) {
@@ -37,10 +40,19 @@ int main () {
     }
 
     bool change;
-    for (size_t i = 0; i < N; i++) {
-        // if friend does not satisfy both conditions to be invited
-        if (!(degree (friendship, i) <= B && degree (friendship, i) >= A)) {
-            
+    do {
+        change = false;
+        for (size_t i = 0; i < N; i++) {
+            // if friend does not satisfy both conditions to be invited
+            if (!(degree (friendship, i) <= B && degree (friendship, i) >= A)) {
+                change = true;
+                remove_friend(friendship, i);
+            }
         }
-    }
+    } while (change != false);
+
+    uint ans = 0;
+    for (size_t i = 0; i < N; i++) ans += friendship[i].size();
+
+    cout << ans << endl;
 }
