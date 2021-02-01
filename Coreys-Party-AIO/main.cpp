@@ -4,26 +4,22 @@ using namespace std;
 
 size_t N, M, A, B;
 
-bool is_edge (vector<uint>* arr, uint x, uint y) {
-    for (size_t i = 0; i < arr[x].size(); i++) if (arr[x][i] == y) return true;
-    return false;
+bool is_edge (set<uint>* arr, uint x, uint y) {
+    return arr[x].find(y) == arr[x].end();
 }
 
-void remove_friend (vector<uint>* arr, uint x) {
+void remove_friend (set<uint>* arr, uint x) {
     for (size_t i = 0; i < arr[x].size(); i++)
-        for (size_t j = 0; j < arr[arr[x][j]].size(); j++) {
-            if (arr[arr[x][i]][j] == arr[x][i]) {
-                arr[arr[x][i]].erase(arr[arr[x][i]].begin() + j);
-                break;
-            }
-        }
+        arr[i].erase(x);
+
+    arr[x].clear();
 }
 
-void add_edge (vector<uint>* arr, uint x, uint y) {
-    arr[x].push_back(y); arr[y].push_back(x);
+void add_edge (set<uint>* arr, uint x, uint y) {
+    arr[x].insert(y); arr[y].insert(x);
 }
 
-size_t degree (vector<uint>* arr, uint x) {
+size_t degree (set<uint>* arr, uint x) {
     return arr[x].size();
 }
 
@@ -33,9 +29,10 @@ int main () {
     freopen ("partyin.txt", "r", stdin);
     freopen ("partyout.txt", "w", stdout);
     
-    vector<uint> friendship[N] = {{0}};
+    set<uint> friendship[N] = {{0}};
     for (size_t i = 0; i < M; i++) {
         size_t x, y; cin >> x; cin >> y;
+        x--; y--; // shift to zero-based indexing
         add_edge(friendship, x, y);
     }
 
