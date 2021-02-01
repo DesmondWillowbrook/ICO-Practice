@@ -24,11 +24,11 @@ size_t degree (set<uint>* arr, uint x) {
 }
 
 int main () {
-    cin >> N >> M >> A >> B;
-
     freopen ("partyin.txt", "r", stdin);
     freopen ("partyout.txt", "w", stdout);
     
+    cin >> N >> M >> A >> B;
+
     set<uint> friendship[N] = {{0}};
     for (size_t i = 0; i < M; i++) {
         size_t x, y; cin >> x; cin >> y;
@@ -36,20 +36,30 @@ int main () {
         add_edge(friendship, x, y);
     }
 
-    bool change;
+    #ifdef DEBUG
+    printf ("Finished taking input\n");
+    #endif
+
+    bool change; size_t friend_num = N;
+    
     do {
         change = false;
         for (size_t i = 0; i < N; i++) {
             // if friend does not satisfy both conditions to be invited
-            if (!(degree (friendship, i) <= B && degree (friendship, i) >= A)) {
+            if (friendship[i].empty()) continue;
+
+            // Not satisfy criteria for being invited
+            if (!(friend_num - degree (friendship, i) >= B && degree (friendship, i) >= A)) {
+                #ifdef DEBUG
+                printf ("Removing friend %ld as they had %ld friends\n", i, degree (friendship, i));
+                #endif
+
                 change = true;
                 remove_friend(friendship, i);
+                friend_num--;
             }
         }
     } while (change != false);
 
-    uint ans = 0;
-    for (size_t i = 0; i < N; i++) ans += friendship[i].size();
-
-    cout << ans << endl;
+    cout << friend_num << endl;
 }
