@@ -45,11 +45,10 @@ int main () {
     do {
         change = false;
         for (size_t i = 0; i < N; i++) {
-            // if friend does not satisfy both conditions to be invited
             if (friendship[i].empty()) continue;
 
-            // Not satisfy criteria for being invited
-            if (!(friend_num - degree (friendship, i) >= B && degree (friendship, i) >= A)) {
+            // If friend Not satisfy criteria for being invited
+            if (!(degree (friendship, i) >= A && friend_num - degree (friendship, i) >= B)) {
                 #ifdef DEBUG
                 printf ("Removing friend %ld as they had %ld friends\n", i, degree (friendship, i));
                 #endif
