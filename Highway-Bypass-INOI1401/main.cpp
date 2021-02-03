@@ -4,19 +4,23 @@ using namespace std;
 
 size_t R, C, d;
 
-int grid[300][300];
+bool grid[300][300];
 
-// straight > 0 => down direction
-// straight < 0 => right direction
+/* represents states:
+   [x][y][len][dir]
 
-int paths (size_t r, size_t c, int straight) {
-    if (grid[r][c] != -1) return grid[r][c];
+   Paths at point x, y where path was len long in the direction dir
+   0 -> right, 1 -> down
+*/
+int dp[300][300][300][2] = {0};
+
+int paths (int r, int c, int len, int dir) {
+    if (r < 0 || c < 0) return 0;
+    if (dp[r][c][len][dir] != 0) return grid[r][c];
 
     uint ans = 0;
-    if (abs(straight) < d) {
-        if (straight > 0) ans += paths (r, c - 1, straight + 1);
-        if (straight < 0) ans += paths (r - 1, c, straight - 1);
-    }
+    if (len > 0) dp[r][c][len][dir] = paths(r, c, len - 1, dir);
+    else dp[r][c][len][dir] = paths (r - 1, c, 0, 0) + paths (r, c - 1, 0, 1);
 }
 
 int main () {
@@ -25,7 +29,7 @@ int main () {
     for (size_t i = 0; i < R; i++)
         for (size_t j = 0; j < C; j++) {
             int tmp; cin >> tmp;
-            if (tmp == 0) grid[i][j] = 0;
-            else grid[i][j] = -1;
+            if (tmp == 0) grid[i][j] = false;
+            else grid[i][j] = true;
         }
 }
