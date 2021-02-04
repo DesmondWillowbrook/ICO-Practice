@@ -9,7 +9,7 @@ int main () {
     vector<pair<uint, uint>> adj_list[cities];
     for (size_t i = 0; i < edges; i++) {
         uint a, b, weight;
-        cin >> a >> b >> weight;
+        cin >> a >> b >> weight; a--; b--; // move to zero-based indexing
         adj_list[a].push_back({weight, b});
         adj_list[b].push_back({weight, a});
     }
@@ -22,24 +22,25 @@ int main () {
        max. dist. from all node pairs
        We could've used Floyd-Warshall as well.
     */
-    for (size_t i = 0; i < cities; i++) {
-        unvisited.push({0, i});
+    for (size_t src = 0; src < cities; src++) {
+        unvisited.push({0, src});
         fill_n(distance, cities, INT_MAX);
-        distance[i] = 0;
+        distance[src] = 0;
         //fill_n (visited, cities, false);
 
         while (!unvisited.empty()) {
             int node = unvisited.top().second; unvisited.pop(); //visited[node] = true;
+            int dist = distance[node];
 
-            for (size_t j = 0; j < adj_list[i].size(); j++) {
-                if (distance[node] + adj_list[node][j].first < distance[j]) {
-                    distance[j] = distance[node] + adj_list[node][j].first;
-
-                    ans = max (distance[j], ans);
-                    unvisited.push({distance[j], adj_list[i][j].second});
+            for (auto ele: adj_list[node]) {
+                if (distance[ele.second] > dist + ele.first) {
+                    distance[ele.second] = dist + ele.first;
+                    unvisited.push({distance[ele.second], ele.second});
                 }
             }
         }
+
+        for (auto ele: distance) ans = max(ans, ele);
     }
 
     cout << ans << endl;
