@@ -16,9 +16,12 @@ long long int find_max_sum (long int start, long int end) {
     #endif
 
     long long int max_till_end = LONG_LONG_MIN;
-    if (B[start] + K == B[end])
-            max_till_end = find_max_sum (start + 1, end - 1) + V[start] + V[end];
-    max_till_end = max(max_till_end, max (find_max_sum (start + 1, end), find_max_sum (start, end - 1)));
+
+    for (long int i = start; i <= end; i++) {
+        if (B[start] + K == B[i])
+            max_till_end = max(max_till_end, find_max_sum (start + 1, i - 1) + find_max_sum (i + 1, end) + V[start] + V[i]);
+    }
+    max_till_end = max(max_till_end, find_max_sum (start + 1, end));
 
     max_sum[start][end] = max_till_end;
     return max_sum[start][end];
