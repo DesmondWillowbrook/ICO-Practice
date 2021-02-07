@@ -3,32 +3,24 @@
 using namespace std;
 
 size_t N, K;
-long int V[700], max_sum[700][700]; uint B[700];
+long int V[710]; long long int max_sum[710][710]; uint B[710];
 
-long int ans = -INT_MAX;
+long long int ans = LONG_LONG_MIN;
 
-long int find_max_sum (long int start, long int end) {
+long long int find_max_sum (long int start, long int end) {
     if (start >= end) return 0;
-    if (max_sum[start][end] != -INT_MAX) return max_sum[start][end];
+    if (max_sum[start][end] != LONG_LONG_MIN) return max_sum[start][end];
 
     #ifdef DEBUG
     printf ("Evaluating range (%ld, %ld)\n", start + 1, end + 1);
     #endif
 
-    long int max_till_i = -INT_MAX;
-    for (long int i = start + 1; i <= end; i++)
-        if (B[start] + K == B[i]) {
-            max_till_i = max(max_till_i, find_max_sum (start + 1, i - 1) + V[start] + V[i]);
-            #ifdef DEBUG
-            printf ("Match found at (%ld, %ld). Sum is: %ld: %ld (lbrac) + %ld (rbrac) + %ld (smaller range %ld, %ld)\n",
-                start + 1, i + 1, find_max_sum (start + 1, i - 1) + V[start] + V[i],
-                V[start], V[i], find_max_sum (start + 1, i - 1), start + 1 + 1, i - 1 + 1);
-            #endif
-        } else {
-            max_till_i = max(max_till_i, max (find_max_sum (start + 1, i), find_max_sum (start, i - 1)));
-        }
+    long long int max_till_end = LONG_LONG_MIN;
+    if (B[start] + K == B[end])
+            max_till_end = find_max_sum (start + 1, end - 1) + V[start] + V[end];
+    max_till_end = max(max_till_end, max (find_max_sum (start + 1, end), find_max_sum (start, end - 1)));
 
-    max_sum[start][end] = max_till_i;
+    max_sum[start][end] = max_till_end;
     return max_sum[start][end];
 }
 
@@ -39,10 +31,9 @@ int main () {
 
     for (size_t i = 0; i < N; i++)
         for (size_t j = i + 1; j < N; j++)
-            max_sum[i][j] = -INT_MAX;
+            max_sum[i][j] = LONG_LONG_MIN;
 
-    for (size_t i = 0; i < N; i++)
-            ans = max (ans, find_max_sum (i, N - 1));
+    ans = max (ans, find_max_sum (0, N - 1));
 
     cout << ans << endl;
 }
