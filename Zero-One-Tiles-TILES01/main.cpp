@@ -14,12 +14,12 @@ int main () {
         cout << prev << " ";
         #endif
         size_t tmp_curr = curr;
-        curr += prev;
+        curr = (curr % 15746) + (prev % 15746);
         prev = tmp_curr;
     }
     #ifdef DEBUG
     cout << endl;
     #endif
 
-    cout << curr << endl;
+    cout << (curr % 15746) << endl;
 }
