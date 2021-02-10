@@ -1,9 +1,9 @@
 #include <bits/stdc++.h>
 
-typedef long long int ll;
+typedef long long unsigned int ll;
 using namespace std;
 
-size_t N, K; ll C[20], ans;
+size_t N, K; ll C[20]; long long int ans;
 
 // find HCF of two numbers (or GCD, if you prefer)
 ll hcf (ll a, ll b) {
@@ -38,7 +38,7 @@ void solve (size_t len, size_t subseq_len, size_t curr_lcm) {
     else ans -= N / lcm (curr_lcm, C[len]);
 
     solve (len + 1, subseq_len, curr_lcm); // case where current num. is not chosen
-    solve (len + 1, subseq_len + 1, lcm (curr_lcm, C[len]));
+    if (lcm (curr_lcm, C[len]) <= N) solve (len + 1, subseq_len + 1, lcm (curr_lcm, C[len]));
 }
 
 int main () {
