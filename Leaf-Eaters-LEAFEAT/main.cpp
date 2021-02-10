@@ -3,17 +3,17 @@
 typedef long long int ll;
 using namespace std;
 
-ll N, K, C[20], ans;
-bool used[20]; // for building a rep-free subseq.
+size_t N, K; ll C[20], ans;
 
 // find HCF of two numbers (or GCD, if you prefer)
 ll hcf (ll a, ll b) {
     if (a < b) swap (a, b);
 
+    ll r;
     while (b != 0) {
-        ll tmp_b = b;
-        b = a % b;
-        a = tmp_b;
+        r = a % b;
+        a = b;
+        b = r;
     }
 
     return a;
@@ -27,10 +27,18 @@ ll lcm (ll a, ll b) {
 // subseq_len is important to know we want to subtract or add
 // by Inclusion-Exclusion principle
 
-ll solve (size_t len, size_t subseq_len) {
-    if (subseq_len > len || len > N) return 0;
+void solve (size_t len, size_t subseq_len, size_t curr_lcm) {
+    if (len >= K) return;
 
-    
+    #ifdef DEBUG
+    printf ("len: %ld, subseq_len: %ld, curr_lcm: %ld\n", len, subseq_len, curr_lcm);
+    #endif
+
+    if (subseq_len % 2 == 1) ans += N / lcm (curr_lcm, C[len]);
+    else ans -= N / lcm (curr_lcm, C[len]);
+
+    solve (len + 1, subseq_len, curr_lcm); // case where current num. is not chosen
+    solve (len + 1, subseq_len + 1, lcm (curr_lcm, C[len]));
 }
 
 int main () {
@@ -38,11 +46,7 @@ int main () {
     for (size_t i = 0; i < K; i++) cin >> C[i];
 
     ans = N;
-
-    for (size_t i = 1; i <= K; i++) {
-        if (i % 2 == 1) ; 
-        else ;
-    }
+    solve(0, 0, 1);
 
     cout << ans << endl;
 }
