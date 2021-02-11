@@ -1,41 +1,20 @@
+// AMAZING!
+
 #include <bits/stdc++.h>
 
 using namespace std;
 
-size_t N, M;
-int dp[150010];
-
-// modular exponentiation, req. to keep under limit
-int mod_exp (int a, int b) {
-    int ans = 1;
-    for (int i = 0; i < b; i++) {
-        ans = (ans % M) * (a % M);
-    }
-    return ans;
-}
-
-int pStr (int n) {
-    if (dp[n - 1] != INT_MAX) return dp[n - 1];
-
-    int ans = mod_exp (2, n);
-    for (int i = 1; i <= n/2; i++)
-        if (n % i == 0) ans = (ans % M) - (pStr(i) % M);
-        
-    ans %= M;
-
-    #ifdef DEBUG
-    printf ("Evaluating pStr(%d): %d\n", n, ans);
-    #endif
-
-    dp[n - 1] = ans;
-    return dp[n - 1];
-}
-
 int main () {
-    cin >> N >> M;
+    size_t N, M; cin >> N >> M;
+    uint dp[N + 1];
 
-    dp[0] = 2;
-    fill_n (dp + 1, N, INT_MAX);
+    dp[1] = 2;
+    for (size_t i = 2; i <= N; i++)
+        dp[i] = (2 * dp[i - 1]) % M;
 
-    cout << pStr(N) << endl;
+    for (size_t i = 1; i <= N/2; i++)
+        for (size_t j = 2*i; j <= N; j += i /*iterates over all multiples of i*/)
+            dp[j] = (dp[j] - dp[i] + M /*Adding M ensures no neg. values*/) % M;
+
+    cout << dp[N] << endl;
 }
