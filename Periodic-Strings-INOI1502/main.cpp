@@ -3,22 +3,22 @@
 using namespace std;
 
 size_t N, M;
-uint dp[150010];
+int dp[150010];
 
 // modular exponentiation, req. to keep under limit
-uint mod_exp (uint a, uint b) {
-    uint ans = 1;
-    for (uint i = 0; i < b; i++) {
+int mod_exp (int a, int b) {
+    int ans = 1;
+    for (int i = 0; i < b; i++) {
         ans = (ans % M) * (a % M);
     }
     return ans;
 }
 
-uint pStr (uint n) {
-    if (dp[n - 1] != UINT_MAX) return dp[n - 1];
+int pStr (int n) {
+    if (dp[n - 1] != INT_MAX) return dp[n - 1];
 
-    uint ans = mod_exp (2, n);
-    for (uint i = 1; i <= n/2; i++)
+    int ans = mod_exp (2, n);
+    for (int i = 1; i <= n/2; i++)
         if (n % i == 0) ans = (ans % M) - (pStr(i) % M);
         
     ans %= M;
@@ -33,6 +33,9 @@ uint pStr (uint n) {
 
 int main () {
     cin >> N >> M;
-    fill_n (dp, N, UINT_MAX);
+
+    dp[0] = 2;
+    fill_n (dp + 1, N, INT_MAX);
+
     cout << pStr(N) << endl;
 }
