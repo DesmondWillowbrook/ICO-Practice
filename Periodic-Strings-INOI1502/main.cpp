@@ -3,7 +3,7 @@
 using namespace std;
 
 size_t N, M;
-uint dp[150000];
+uint dp[150010];
 
 // modular exponentiation, req. to keep under limit
 uint mod_exp (uint a, uint b) {
