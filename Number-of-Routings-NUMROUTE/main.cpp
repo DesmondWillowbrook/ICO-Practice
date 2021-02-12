@@ -55,10 +55,12 @@ void smart_mod_exp (uint n) {
 	printf ("Evaluating matrix ^ %d\n", n);
 	#endif
 
-	smart_mod_exp (n / 2);
-	matrix_mult (a, a, b); swap (a, b); // squares a
 	if (n % 2 == 1) {
+		smart_mod_exp (n - 1);
 		matrix_mult (a, b, c); swap (a, c); // produces a^3
+	} else {
+		smart_mod_exp (n / 2);
+		matrix_mult (a, a, b); swap (a, b);
 	}
 }
 
