@@ -6,9 +6,12 @@ using namespace std;
 
 size_t N;
 
-vector<vector<uint>> a (100, vector<uint> (100, 0));
-vector<vector<uint>> b (100, vector<uint> (100, 0));
-vector<vector<uint>> c (100, vector<uint> (100, 0));
+typedef vector<uint> row;
+typedef vector<row> matrix;
+
+matrix a (120, row (120, 0));
+matrix b (120, row (120, 0));
+matrix c (120, row (120, 0));
 
 #ifdef DEBUG
 const uint space_len = 6;
@@ -18,7 +21,7 @@ T uniform_spacing_print (T n) {
     return n;
 }
 
-void print_grid (vector<vector<uint>>& g) {
+void print_grid (matrix& g) {
 	for (size_t i = 0; i < N; i++) {
 		for (size_t j = 0; j < N; j++)
 			printf ("%d ", uniform_spacing_print(g[i][j]));
@@ -27,12 +30,12 @@ void print_grid (vector<vector<uint>>& g) {
 }
 #endif
 
-void clear_grid (vector<vector<uint>>& g) {
+void clear_grid (matrix& g) {
 	for (size_t i = 0; i < N; i++) for (size_t j = 0; j < N; j++) g[i][j] = 0;
 }
 
 // multiplies a by b, stores result in res
-void matrix_mult (vector<vector<uint>>& a, vector<vector<uint>>& b, vector<vector<uint>>& res) {
+void matrix_mult (matrix& a, matrix& b, matrix& res) {
 	for (size_t i = 0; i < N; i++)
 		for (size_t j = 0; j < N; j++)
 			for (size_t k = 0; k < N; k++)
