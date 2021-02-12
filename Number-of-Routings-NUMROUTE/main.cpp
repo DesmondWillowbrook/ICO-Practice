@@ -1,12 +1,14 @@
+// built using matrix exponentiation!
+
 #include <bits/stdc++.h>
 
 using namespace std;
 
 size_t N;
 
-vector<vector<uint>> a (75, vector<uint> (75, 0));
-vector<vector<uint>> b (75, vector<uint> (75, 0));
-vector<vector<uint>> c (75, vector<uint> (75, 0));
+vector<vector<uint>> a (100, vector<uint> (100, 0));
+vector<vector<uint>> b (100, vector<uint> (100, 0));
+vector<vector<uint>> c (100, vector<uint> (100, 0));
 
 #ifdef DEBUG
 const uint space_len = 6;
@@ -53,7 +55,7 @@ void smart_mod_exp (uint n) {
 	smart_mod_exp (n / 2);
 	matrix_mult (a, a, b); swap (a, b); // squares a
 	if (n % 2 == 1) {
-		matrix_mult (a, b, c); swap (a, c);
+		matrix_mult (a, b, c); swap (a, c); // produces a^3
 	}
 }
 
@@ -64,5 +66,5 @@ int main () {
 	size_t K; uint S, T; cin >> S >> T >> K;
 
 	smart_mod_exp (K);
-	cout << a[S - 1][T - 1] << endl;
+	cout << a[S - 1][T - 1] % 42373 << endl;
 }
