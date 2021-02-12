@@ -30,16 +30,19 @@ void print_grid (matrix& g) {
 }
 #endif
 
-void clear_grid (matrix& g) {
+void clear_matrix (matrix& g) {
 	for (size_t i = 0; i < N; i++) for (size_t j = 0; j < N; j++) g[i][j] = 0;
 }
 
 // multiplies a by b, stores result in res
 void matrix_mult (matrix& a, matrix& b, matrix& res) {
 	for (size_t i = 0; i < N; i++)
-		for (size_t j = 0; j < N; j++)
+		for (size_t j = 0; j < N; j++) {
+			size_t tmp = 0;
 			for (size_t k = 0; k < N; k++)
-				res[i][j] = (res[i][j] + a[i][k] * b[k][j]) % 42373;
+				tmp += a[i][k] * b[k][j];
+			res[i][j] = tmp % 42373;
+		}
 	
 	#ifdef DEBUG
 	printf ("Multiplying matrices. Res is:\n");
@@ -49,7 +52,7 @@ void matrix_mult (matrix& a, matrix& b, matrix& res) {
 
 // exponentiates matrix by power N
 void smart_mod_exp (uint n) {
-	if (n == 1 || n == 0) return;
+	if (n == 1) return;
 
 	#ifdef DEBUG
 	printf ("Evaluating matrix ^ %d\n", n);
@@ -68,7 +71,7 @@ int main () {
 	cin >> N;
 
 	for (size_t i = 0; i < N; i++) for (size_t j = 0; j < N; j++) cin >> a[i][j];
-	size_t K; uint S, T; cin >> S >> T >> K;
+	size_t K, S, T; cin >> S >> T >> K;
 
 	smart_mod_exp (K);
 	cout << a[S - 1][T - 1] % 42373 << endl;
