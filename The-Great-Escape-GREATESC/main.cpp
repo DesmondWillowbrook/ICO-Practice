@@ -12,25 +12,27 @@ int main () {
 	}
 	uint S, T; cin >> S >> T; S--; T--;
 
-	queue<uint> to_visit; // inplace of Priority Queue, as this is unweighted graph
+	queue<uint> to_visit; // for BFS
 	to_visit.push (S);
 
-	uint dist[N]; bool visited[N] = {false};
+	uint dist[N];
 	fill_n (dist, N, UINT_MAX); dist[S] = 0;
 
 	while (!to_visit.empty()) {
-		uint src = to_visit.front(); to_visit.pop(); visited[src] = true;
+		uint src = to_visit.front(); to_visit.pop();
 		#ifdef DEBUG
 		printf ("Evaluating paths with node %d\n", src);
 		#endif
 
 		for (auto node: edges[src]) {
-			if (visited[node]) continue;
-			#ifdef DEBUG
-			if (dist[node] > dist[src] + 1) printf ("Relaxing %d to %d with help of node %d\n", node, dist[src] + 1, src);
-			#endif
-			dist[node] = min (dist[node], dist[src] + 1);
-			to_visit.push(node);
+			if (dist[node] > dist[src] + 1) {
+				#ifdef DEBUG
+				printf ("Relaxing %d to %d with help of node %d\n", node, dist[src] + 1, src);
+				#endif
+
+				dist[node] = dist[src] + 1;
+				to_visit.push(node);
+			}
 		}
 	}
 
