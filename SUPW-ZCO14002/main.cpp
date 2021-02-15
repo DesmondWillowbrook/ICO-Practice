@@ -21,9 +21,11 @@ int min_supw (int* arr, int* sol, int n) {
     #endif
     if (sol[n] != INT_MAX) return sol[n];
     sol[n] = min(min_supw (arr, sol, n - 1), min(min_supw (arr, sol, n - 2), min_supw (arr, sol, n - 3))) + arr[n];
+    
     #ifdef DEBUG
     print_arr(sol);
     #endif
+
     return sol[n];
 }
 
