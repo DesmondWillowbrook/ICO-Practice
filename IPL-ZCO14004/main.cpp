@@ -11,25 +11,32 @@ void print_arr (int* arr, int n) {
 }
 #endif
 
-int max_fee (int* arr, int sol[][2], int n, bool consecutive) {
-    if (n == 0) return arr[0];
-    if (n < 0) return -INT_MAX;
+// consec = 0 means previous not selected, consec = 1 means previous selected
+int max_fee (int n, int* arr, int sol[][2], int consecutive) {
+    if (n < 0) return 0;
+    if (n == 0) return sol[0][consecutive] = arr[0];
+    if (sol[n][consecutive] != INT_MAX) return sol[n][consecutive];
 
-    if (consecutive)
-        if (sol[n][0] != -INT_MAX) return max_fee (arr, sol, n - 1, false) + arr[n];
-        else return sol[n][0];
+    #ifdef DEBUG
+    printf ("Evaluating %d th when consec = %d\n", n, consecutive);
+    #endif
+
+    if (consecutive == 0)
+        return sol[n][consecutive] = max (max_fee (n - 2, arr, sol, 0), max_fee (n - 2, arr, sol, 1)) + arr[n];
     else
-        if (sol[n][1] != -INT_MAX) return max_fee (arr, sol, n - 1, false) + arr[n];
-        else return sol[n][1];
+        return sol[n][consecutive] = max_fee (n - 1, arr, sol, 0) + arr[n];
 }
 
 int main () {
     cin >> N;
-    int arr[N];
-    int sol[N][2]; // one index for if we select prev, the other for if we don't.
-    fill (&sol[0][0], &sol[0][0] + sizeof(sol), -INT_MAX);
-    for (size_t i = 0; i < N; i++) cin >> arr[i];
+    int arr[N], sol[N][2];
+    for (size_t i = 0; i < N; i++) {
+        cin >> arr[i];
 
-    max_fee (arr, sol, N - 1, false);
-    cout << max (max_fee(arr, sol, N - 1, false), max_fee(arr, sol, N - 2, false));
+        sol[i][0] = INT_MAX; sol[i][1] = INT_MAX;
+    }
+
+    cout << max(max(max(max_fee (N - 1, arr, sol, 1), max_fee (N - 1, arr, sol, 0)),
+                max(max_fee (N - 2, arr, sol, 1), max_fee (N - 2, arr, sol, 0))),
+                max(max_fee (N - 3, arr, sol, 1), max_fee (N - 3, arr, sol, 0))) << endl;
 }
