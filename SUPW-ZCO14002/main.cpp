@@ -13,12 +13,8 @@ void print_arr (int* arr) {
 
 int min_supw (int* arr, int* sol, int n) {
     if (n < 0) return INT_MAX;
-    #ifndef DEBUG
-    else if (n < 3) return arr[n];
-    #endif
-    #ifdef DEBUG
     else if (n < 3) {sol[n] = arr[n]; return arr[n];}
-    #endif
+
     if (sol[n] != INT_MAX) return sol[n];
     sol[n] = min(min_supw (arr, sol, n - 1), min(min_supw (arr, sol, n - 2), min_supw (arr, sol, n - 3))) + arr[n];
     
