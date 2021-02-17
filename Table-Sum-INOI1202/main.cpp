@@ -17,7 +17,11 @@ int main () {
         cout << *nums.rbegin() + i << " ";
 
         // update Nth number which has fallen off
-        uint n = N - 1 - i;
+        int n = N - 1 - i;
+
+        #ifdef DEBUG
+        printf ("For iteration %ld, falloff number is: [%d]\n", i + 1, n);
+        #endif
 
         nums.erase (nums.find(a[n]));
         a[n] -= n; // revert to a[n] + 1
