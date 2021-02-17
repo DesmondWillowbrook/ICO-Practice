@@ -24,7 +24,7 @@ int main () {
         #endif
 
         nums.erase (nums.find(a[n]));
-        a[n] -= n; // revert to a[n] + 1
+        a[n] -= N; // falloff number is currently supposed to be a[i] + N, so we subtract by that amount 
         nums.insert (a[n]);
     }
     cout << endl;
