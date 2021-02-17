@@ -6,7 +6,7 @@ size_t N;
 
 int main () {
     cin >> N;
-    multiset<uint> nums; uint a[N];
+    multiset<int> nums; int a[N];
 
     for (size_t i = 0; i < N; i++) {
         cin >> a[i]; a[i] += i + 1;
