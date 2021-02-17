@@ -17,7 +17,7 @@ long long int find_max_sum (long int start, long int end) {
 
     long long int max_till_end = LONG_LONG_MIN;
 
-    for (long int i = start; i <= end; i++) {
+    for (long int i = start + 1; i <= end; i++) {
         if (B[start] + K == B[i])
             max_till_end = max(max_till_end, find_max_sum (start + 1, i - 1) + find_max_sum (i + 1, end) + V[start] + V[i]);
     }
