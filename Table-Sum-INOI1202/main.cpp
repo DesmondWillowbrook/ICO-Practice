@@ -16,7 +16,7 @@ int main () {
     for (size_t i = 0; i < N; i++) {
         cout << *nums.rbegin() + i << " ";
 
-        // update Nth number which has fallen off
+        // update nth number which has fallen off (i.e. in reverse order)
         int n = N - 1 - i;
 
         #ifdef DEBUG
