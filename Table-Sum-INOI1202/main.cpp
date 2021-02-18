@@ -24,7 +24,11 @@ int main () {
         #endif
 
         nums.erase (nums.find(a[n]));
-        a[n] -= N; // falloff number is currently supposed to be a[i] + N, so we subtract by that amount 
+        // A number at iteration i can be written as: a[j] + j + i IF i < N - i
+        // else, it is written as: a[j] + j + i - N.
+        // we are storing nums as a[j] + j, i is added when printing.
+        // so all we need to do is subtract N when a number falls off.
+        a[n] -= N;
         nums.insert (a[n]);
     }
     cout << endl;
