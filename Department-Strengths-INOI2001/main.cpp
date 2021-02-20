@@ -6,15 +6,15 @@ const size_t MAX_N = 10e5 + 100;
 
 vector<uint> emps [MAX_N]; //emps[i] contains all children of i
 
-bool visited [MAX_N], visited2[MAX_N];
+bool visited [MAX_N], visited_calc_str[MAX_N];
 uint min_e, max_e, num_e, strength;
 
 void compute_strength (uint n, uint lvl) {
-	visited2[n] = true;
+	visited_calc_str[n] = true;
 	strength += lvl;
 
 	for (uint child: emps[n])
-		if (visited2[child] != true) compute_strength (child, lvl + 1);
+		if (!visited_calc_str[child]) compute_strength (child, lvl + 1);
 }
 
 void dfs (uint n) {
@@ -22,25 +22,25 @@ void dfs (uint n) {
 	num_e++; min_e = min (n, min_e); max_e = max (n, max_e);
 
 	for (uint child: emps[n])
-		if (visited[child] != true)	dfs(child);
+		if (!visited[child]) dfs(child);
 }
 
 int main () {
 	long int T; cin >> T;
 
 	while (T--) {
-		size_t N, M; cin >> N >> M;
+		size_t N, M; scanf ("%ld %ld", &N, &M);
 
 		for (size_t i = 0; i < N; i++) emps[i].clear();
+		fill_n (visited, N, false); fill_n (visited_calc_str, N, false);
+
 		for (size_t i = 0; i < M; i++) {
-			uint u, v; cin >> u >> v; u--; v--; emps[u].push_back(v); emps[v].push_back(u);
+			uint u, v; scanf("%d %d", &u, &v); u--; v--; emps[u].push_back(v); emps[v].push_back(u);
 		}
 
-		fill_n (visited, N, false); fill_n (visited2, N, false);
-
-		long int odd = 0, even = 0;
+		long long odd = 0, even = 0;
 		for (size_t n = 0; n < N; n++)
-			if (visited[n] != true) {
+			if (!visited[n]) {
 				max_e = n; min_e = n; num_e = 0; strength = 0;
 				dfs(n);
 
@@ -64,6 +64,6 @@ int main () {
 				}
 			}
 
-		printf ("%ld %ld\n", even, odd);
+		printf ("%lld %lld\n", even, odd);
 	}
 }
