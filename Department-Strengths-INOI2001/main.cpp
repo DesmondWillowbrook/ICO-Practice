@@ -2,7 +2,7 @@
 
 using namespace std;
 
-const size_t MAX_N = 10e6;
+const size_t MAX_N = 10e5 + 100;
 
 vector<uint> emps [MAX_N]; //emps[i] contains all children of i
 
