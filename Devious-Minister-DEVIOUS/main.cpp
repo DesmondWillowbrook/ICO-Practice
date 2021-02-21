@@ -10,28 +10,28 @@ bool seg_cmp (pair<size_t, size_t> a, pair<size_t, size_t> b) {
 
 int main () {
 	size_t N; cin >> N;
-	int p[N]; for (size_t i = 0; i < N; i++) cin >> p[i];
+	int p[N + 1]; for (size_t i = 1; i <= N; i++) cin >> p[i];
 
-	pair<ll, size_t> sums[N]; sums[0] = {p[0], 1};
-	for (size_t i = 1; i < N; i++) sums[i] = {sums[i - 1].first + p[i], i + 1};
+	pair<ll, size_t> sums[N + 1]; sums[0] = {0, 0};
+	for (size_t i = 1; i <= N; i++) sums[i] = {sums[i - 1].first + p[i], i};
 
 	#ifdef DEBUG
-	for (size_t i = 0; i < N; i++) printf ("%lld %ld\n", sums[i].first, sums[i].second);
+	for (size_t i = 1; i <= N; i++) printf ("%lld %ld\n", sums[i].first, sums[i].second);
 	cout << endl;
 	#endif
 
-	sort (sums, sums + N);
+	sort (sums, sums + N + 1);
 
 	#ifdef DEBUG
 	cout << "Sorted array: \n";
-	for (size_t i = 0; i < N; i++) printf ("%lld %ld\n", sums[i].first, sums[i].second);
+	for (size_t i = 0; i <= N; i++) printf ("%lld %ld\n", sums[i].first, sums[i].second);
 	cout << endl;
 	#endif
 
 	ll ans = LONG_LONG_MAX; pair<size_t, size_t> seg = {0, 0};
 	pair<ll, size_t> start, end;
 
-	for (size_t i = 1; i < N; i++) {
+	for (size_t i = 1; i <= N; i++) {
 		start = sums[i - 1]; end = sums[i];
 		if (start.second > end.second) swap (start, end);
 
