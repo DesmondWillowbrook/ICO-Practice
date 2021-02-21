@@ -10,7 +10,7 @@ bool seg_cmp (pair<size_t, size_t> a, pair<size_t, size_t> b) {
 
 int main () {
 	size_t N; cin >> N;
-	int p[N + 1]; for (size_t i = 1; i <= N; i++) cin >> p[i];
+	int p[N]; for (size_t i = 0; i < N; i++) cin >> p[i];
 
 	pair<ll, size_t> sums[N + 1]; sums[0] = {0, 0};
 	for (size_t i = 1; i <= N; i++) sums[i] = {sums[i - 1].first + p[i], i};
