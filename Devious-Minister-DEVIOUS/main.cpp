@@ -35,19 +35,12 @@ int main () {
 		start = sums[i - 1]; end = sums[i];
 		if (start.second > end.second) swap (start, end);
 
-		if (abs(ans) >= abs(end.first - start.first)) {
-			// if current sol. is strictly better than stored sol., then replace
-			if (abs(ans) > abs(end.first - start.first)) {
-				seg = {start.second + 1, end.second};
-				ans = end.first - start.first;
-			}
-			else { // prev_ans == curr_ans, then store the maximum segment
-				// if seg is smaller,
-				if (seg_cmp(seg, {start.second + 1, end.second})) {
-					seg = {start.second + 1, end.second};
-					ans = end.first - start.first;
-				}
-			}
+		if (abs(ans) > abs(end.first - start.first) ||
+			(abs(ans) == abs(end.first - start.first) && seg_cmp(seg, {start.second, end.second}))) {
+			seg = {start.second, end.second - 1};
+			ans = end.first - start.first;
+		}
+	}
 		}
 	}
 
