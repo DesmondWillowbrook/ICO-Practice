@@ -36,6 +36,7 @@ int main () {
 		if (start.second > end.second) swap (start, end);
 
 		if (abs(ans) >= abs(start.first - end.first)) {
+			// if current sol. is strictly better than stored sol., then replace
 			if (abs(ans) > abs(start.first - end.first))
 				seg = {start.second + 1, end.second};
 			else
