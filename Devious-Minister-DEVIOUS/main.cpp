@@ -16,7 +16,8 @@ int main () {
 	for (size_t i = 1; i <= N; i++) sums[i] = {sums[i - 1].first + p[i], i};
 
 	#ifdef DEBUG
-	for (size_t i = 1; i <= N; i++) printf ("%lld %ld\n", sums[i].first, sums[i].second);
+	cout << "Raw sums array: \n";
+	for (size_t i = 0; i <= N; i++) printf ("%lld %ld\n", sums[i].first, sums[i].second);
 	cout << endl;
 	#endif
 
