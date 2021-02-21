@@ -35,9 +35,9 @@ int main () {
 		start = sums[i - 1]; end = sums[i];
 		if (start.second > end.second) swap (start, end);
 
-		if (abs(ans) >= abs(start.first - end.first)) {
+		if (abs(ans) >= abs(end.first - start.first)) {
 			// if current sol. is strictly better than stored sol., then replace
-			if (abs(ans) > abs(start.first - end.first))
+			if (abs(ans) > abs(end.first - start.first))
 				seg = {start.second + 1, end.second};
 			else // prev_ans == curr_ans, then store the maximum segment
 				seg = max (seg, {start.second + 1, end.second}, seg_cmp);
