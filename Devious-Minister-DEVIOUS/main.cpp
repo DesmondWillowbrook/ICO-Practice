@@ -39,8 +39,8 @@ int main () {
 			// if current sol. is strictly better than stored sol., then replace
 			if (abs(ans) > abs(start.first - end.first))
 				seg = {start.second + 1, end.second};
-			else
-				seg = min (seg, {start.second + 1, end.second}, seg_cmp);
+			else // prev_ans == curr_ans, then store the maximum segment
+				seg = max (seg, {start.second + 1, end.second}, seg_cmp);
 
 			ans = end.first - start.first;
 		}
