@@ -1,3 +1,9 @@
+/*
+Does not pass last two test cases.
+Likely flaw: Returns segment eg. (4, 4) for when 0 is one station's expected profit/loss,
+or any sufficiently low (in magnitude) value.
+*/
+
 #include <bits/stdc++.h>
 
 using namespace std;
