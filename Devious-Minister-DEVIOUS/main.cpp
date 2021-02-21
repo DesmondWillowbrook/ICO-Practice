@@ -13,7 +13,7 @@ int main () {
 	int p[N]; for (size_t i = 0; i < N; i++) cin >> p[i];
 
 	pair<ll, size_t> sums[N + 1]; sums[0] = {0, 0};
-	for (size_t i = 1; i <= N; i++) sums[i] = {sums[i - 1].first + p[i], i};
+	for (size_t i = 1; i <= N; i++) sums[i] = {sums[i - 1].first + p[i - 1], i};
 
 	#ifdef DEBUG
 	cout << "Raw sums array: \n";
@@ -35,11 +35,14 @@ int main () {
 	for (size_t i = 1; i <= N; i++) {
 		start = sums[i - 1]; end = sums[i];
 		if (start.second > end.second) swap (start, end);
+		
+		ll revenue = end.first - start.first;
+		pair<size_t, size_t> curr_seg = {start.second + 1, end.second};
 
-		if (abs(ans) > abs(end.first - start.first) ||
-			(abs(ans) == abs(end.first - start.first) && seg_cmp(seg, {start.second, end.second}))) {
-			seg = {start.second, end.second - 1};
-			ans = end.first - start.first;
+		if (abs(ans) > abs(revenue) ||
+			(abs(ans) == abs(revenue) && seg_cmp(seg, curr_seg))) {
+			seg = curr_seg;
+			ans = revenue;
 		}
 	}
 
