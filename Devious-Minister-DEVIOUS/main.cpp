@@ -41,8 +41,6 @@ int main () {
 			ans = end.first - start.first;
 		}
 	}
-		}
-	}
 
 	printf ("%lld\n%ld %ld\n", ans, seg.first, seg.second);
 }
