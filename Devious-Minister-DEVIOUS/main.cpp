@@ -4,7 +4,7 @@ using namespace std;
 
 typedef long long ll;
 
-bool len_cmp (pair<size_t, size_t> a, pair<size_t, size_t> b) {
+bool seg_cmp (pair<size_t, size_t> a, pair<size_t, size_t> b) {
 	return abs((ll) a.first - (ll) a.second) < abs((ll) b.first - (ll) b.second);
 }
 
@@ -16,13 +16,14 @@ int main () {
 	for (size_t i = 1; i < N; i++) sums[i] = {sums[i - 1].first + p[i], i + 1};
 
 	#ifdef DEBUG
-	for (size_t i = 0; i < N; i++) printf ("%lld %ld\n", sums[i].first, sums[i].second);	
+	for (size_t i = 0; i < N; i++) printf ("%lld %ld\n", sums[i].first, sums[i].second);
 	cout << endl;
 	#endif
 
 	sort (sums, sums + N);
 
 	#ifdef DEBUG
+	cout << "Sorted array: \n";
 	for (size_t i = 0; i < N; i++) printf ("%lld %ld\n", sums[i].first, sums[i].second);
 	cout << endl;
 	#endif
@@ -38,7 +39,7 @@ int main () {
 			if (abs(ans) > abs(start.first - end.first))
 				seg = {start.second + 1, end.second};
 			else
-				seg = min (seg, {start.second + 1, end.second}, len_cmp);
+				seg = min (seg, {start.second + 1, end.second}, seg_cmp);
 
 			ans = end.first - start.first;
 		}
