@@ -37,12 +37,17 @@ int main () {
 
 		if (abs(ans) >= abs(end.first - start.first)) {
 			// if current sol. is strictly better than stored sol., then replace
-			if (abs(ans) > abs(end.first - start.first))
+			if (abs(ans) > abs(end.first - start.first)) {
 				seg = {start.second + 1, end.second};
-			else // prev_ans == curr_ans, then store the maximum segment
-				seg = max (seg, {start.second + 1, end.second}, seg_cmp);
-
-			ans = end.first - start.first;
+				ans = end.first - start.first;
+			}
+			else { // prev_ans == curr_ans, then store the maximum segment
+				// if seg is smaller,
+				if (seg_cmp(seg, {start.second + 1, end.second})) {
+					seg = {start.second + 1, end.second};
+					ans = end.first - start.first;
+				}
+			}
 		}
 	}
 
