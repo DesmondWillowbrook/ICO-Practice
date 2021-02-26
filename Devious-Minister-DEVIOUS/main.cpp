@@ -1,7 +1,7 @@
 /*
 Does not pass last two test cases.
-Likely flaw: Returns segment eg. (4, 4) for when 0 is one station's expected profit/loss,
-or any sufficiently low (in magnitude) value.
+Likely flaw: Returns single-length segment eg. (4, 4) for when single station's expected profit/loss,
+is less in magnitude than any segment sum.
 */
 
 #include <bits/stdc++.h>
@@ -41,6 +41,12 @@ int main () {
 	for (size_t i = 1; i <= N; i++) {
 		start = sums[i - 1]; end = sums[i];
 		if (start.second > end.second) swap (start, end);
+		
+		if (start.second + 1 == end.second) {
+			if (i != N) end = sums[i + 1];
+			else continue;
+			if (start.second > end.second) swap (start, end);
+		} // i.e. if they are adjacent
 		
 		ll revenue = end.first - start.first;
 		pair<size_t, size_t> curr_seg = {start.second + 1, end.second};
