@@ -20,7 +20,7 @@ struct Args {
 */
 
 fn main () {
-	let file = File::open("input/day_1/in.txt").unwrap();
+	let file = File::open("input/day_2/in.txt").unwrap();
 	let lines = BufReader::new(file).lines();
-	println!("{}", day_1::part_1(lines));
+	println!("{}", day_2::part_2(lines));
 }
