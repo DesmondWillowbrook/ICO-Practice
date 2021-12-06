@@ -1,13 +1,14 @@
+// TODO: PROBLEM 2 soln. DOES NOT WORK
+
 use std::io::Lines;
+use itertools::{self, Itertools};
 
-fn vec_to_arr<T, const N: usize>(v: Vec<T>) -> [T; N] {
-    v.try_into()
-        .unwrap_or_else(|v: Vec<T>| panic!("Expected a Vec of length {} but it was {}", N, v.len()))
-}
-
+/*
+Gives a different result compated to u32::from_str_radix
 fn byte_to_num (b: [u8; 12]) -> u16 {
-	b.iter().enumerate().fold(0, |acc, (idx, val)| acc + ((*val as u16) << idx))
+	b.iter().zip((0..=11).rev()).fold(0, |acc, (idx, val)| acc + (val << idx))
 }
+*/
 
 pub fn part_1<T: std::io::BufRead> (lines: Lines<T>) -> (u16, u16) {
 	// first element contains count of total sequences processed
@@ -39,66 +40,44 @@ pub fn part_1<T: std::io::BufRead> (lines: Lines<T>) -> (u16, u16) {
 
 	(gamma, epsilon)
 }
-/* 
-use std::ops::Neg
 
-enum MajorityBit {
-	One,
-	Zero
-}
-enum MinorityBit {
-	One,
-	Zero
-}
+pub fn part_2<T: std::io::BufRead> (lines: Lines<T>) -> u32 {
+	let diagnostic_report =
+			lines.map(Result::unwrap)
+			.map(
+				|s| u32::from_str_radix(&s, 2).unwrap()
+			).collect_vec();
 
-impl From<(u32, u32)> for MajorityBit {
-	fn from((one_count, total): (u32, u32)) -> Self {
-		if one_count > total / 2 {Self::One}
-		else {Self::Zero}
-	}
-}
+	let oxy = (0..12).rev()
+		.fold(diagnostic_report.to_vec(), |mut oxy, idx| {
+			if oxy.len() == 1 {return oxy};
 
-impl Neg for MajorityBit {
-	type Output = MinorityBit;
-	fn neg(self) -> Self::Output {
-		match self {
-			Self::One => MinorityBit::Zero,
-			Self::Zero => MinorityBit::One,
-		}
-	}
-}
-*/
+			let common_bit = 
+				if oxy.iter().filter(|e| (*e >> idx) & 1 == 1).count() >= (oxy.len() + 1) / 2 {1} else {0};
 
-pub fn part_2<T: std::io::BufRead> (lines: Lines<T>) -> u16 {
-	let diagnostic_report: [[u8; 12]; 1000] = vec_to_arr(lines.map(Result::unwrap).map(String::into_bytes).map(vec_to_arr).collect::<Vec<_>>());
+			oxy.retain(|e| ((*e >> idx) & 1) == common_bit);
 
-	let (total, one_count) = diagnostic_report.iter()
-		.fold((0u32, [0u32; 12]), |(total, one_count), ele| {
-			assert_eq!(ele.len(), 12);
-
-			(total + 1,
-			ele.iter()
-				.enumerate()
-				// calling a byte a bit is a rather severe offence, but bear with me,
-				// as the byte is SUPPOSED to represent the bit (in this problem).
-				.fold(one_count, |mut one_count, (idx, bit)| {
-					if *bit == b'1' {one_count[idx] += 1};
-					one_count
-				})
-			)
+			println!("Common bit in oxy on position {} is: {}", 12-idx-1, common_bit);
+			for _ in 0..(12-idx-1) {print!(" ")}; println!("|");
+			for ele in &oxy {println!("{:012b}", ele)};
+			oxy
 		});
 
-	let (mut oxygen_candidates, mut co2_candidates) = 
-		diagnostic_report.iter()
-		.partition::<Vec<&[u8; 12]>, _>(|e| if one_count[0] > total / 2 {e[0] == b'1'} else {e[0] == b'0'});
+	let co2 = (0..12).rev()
+		.fold(diagnostic_report.to_vec(), |mut co2, idx| {
+			if co2.len() == 1 {return co2};
 
-	for i in 1..12 {
-		if oxygen_candidates.len() != 1 {oxygen_candidates.retain(|e| if one_count[i] >= total / 2 {e[i] == b'1'} else {e[i] == b'0'});}
-		if co2_candidates.len() != 1 {co2_candidates.retain(|e| if one_count[i] >= total / 2 {e[i] != b'1'} else {e[i] != b'0'});}
-	}
+			let common_bit = 
+				if co2.iter().filter(|e| (*e >> idx) & 1 == 1).count() >= (co2.len() + 1) / 2 {1} else {0};
 
-	assert! (oxygen_candidates.len() == 1);
-	assert! (co2_candidates.len() == 1);
+			co2.retain(|e| ((*e >> idx) & 1) != common_bit);
+			co2
+		});
 
-	byte_to_num(*oxygen_candidates[0]) * byte_to_num(*co2_candidates[0])
+	assert_eq!(oxy.len(), 1);
+	assert_eq!(co2.len(), 1);
+
+	println!("{:012b}\n{:012b}", oxy[0], co2[0]);
+
+	oxy[0] * co2[0]
 }
