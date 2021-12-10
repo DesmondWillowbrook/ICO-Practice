@@ -1,10 +1,8 @@
-// TODO: PROBLEM 2 soln. DOES NOT WORK
-
 use std::io::Lines;
 use itertools::{self, Itertools};
 
 /*
-Gives a different result compated to u32::from_str_radix
+Gives a different result compared to u32::from_str_radix
 fn byte_to_num (b: [u8; 12]) -> u16 {
 	b.iter().zip((0..=11).rev()).fold(0, |acc, (idx, val)| acc + (val << idx))
 }
