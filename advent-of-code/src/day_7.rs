@@ -27,9 +27,8 @@ pub fn part_2<T: std::io::BufRead> (lines: Lines<T>) -> i64 {
 
 	inp.sort_unstable();
 	let average: i64 = (inp.iter().copied().sum::<i64>() as f64 / inp.len() as f64).floor() as i64;
-	let median = inp[(inp.len() / 2)];
 
-	(min(average, median)..max(average, median) + 1).map(|x|
+	(average - 1..average + 1).map(|x|
 		inp.iter().map(|n| (*n - x).abs()).map(|dist| (dist * (dist + 1)) / 2).sum()
 	).min().unwrap()
 }
