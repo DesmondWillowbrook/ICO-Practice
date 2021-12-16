@@ -7,9 +7,9 @@ using namespace std;
 size_t N, K;
 
 size_t solve (vector<uint>& a, vector<uint>& b, size_t k) {
-    priority_queue<uint> A, B;
+    priority_queue<uint> A; priority_queue<uint, vector<uint>, greater<uint>> B;
     for (auto ele: a) A.push (ele);
-    for (auto ele: b) B.push (-ele); // serves as min-heap
+    for (auto ele: b) B.push (ele); // serves as min-heap
 
     for (; k != 0; k--) {
         // here b contains the biggest book, so we swap
@@ -18,17 +18,17 @@ size_t solve (vector<uint>& a, vector<uint>& b, size_t k) {
         // so eventually Big books are in B
         // and Small books are in A
 
-        if (A.top() < -B.top()) break;
+        if (A.top() < B.top()) break;
         // if biggest book of A is smaller than smallest book of B
         // then we have already achieved ideal position.
 
         #ifdef DEBUG
-        printf ("Swapping: %d, %d\n", A.top(), -B.top());
+        printf ("Swapping: %d, %d\n", A.top(), B.top());
         #endif
 
         int swp_a = A.top(); A.pop();
         int swp_b = B.top(); B.pop();
-        A.push (-swp_b); B.push (-swp_a);
+        A.push (swp_b); B.push (swp_a);
     }
     while (B.size() > 1) B.pop(); // to find greatest element in B
 
@@ -36,7 +36,7 @@ size_t solve (vector<uint>& a, vector<uint>& b, size_t k) {
     cout << endl; // add distinction btw. different function runs.
     #endif
 
-    return A.top() + (-B.top());
+    return A.top() + B.top();
 }
 
 int main () {
