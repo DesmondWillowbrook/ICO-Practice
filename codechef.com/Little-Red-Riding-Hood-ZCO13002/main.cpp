@@ -84,11 +84,11 @@ int max_score (uint x, uint y) {
     if (sol[x][y] != -INT_MAX) return sol[x][y];
 
     int ans = -INT_MAX;
-    if (x > 0 && x < N) {
+    if (x > 0) {
         int tmp = max_score (x - 1, y);
         if (tmp != -INT_MAX) ans = max(ans, tmp + grid[x][y]);
     }
-    if (y > 0 && y < N) {
+    if (y > 0) {
         int tmp = max_score (x, y - 1);
         if (tmp != -INT_MAX) ans = max(ans, tmp + grid[x][y]);
     }
