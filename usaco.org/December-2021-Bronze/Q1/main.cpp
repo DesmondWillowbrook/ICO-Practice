@@ -3,37 +3,25 @@
 using namespace std;
 
 int main () {
-	uint n; cin >> n;
-	uint g_count[n + 1] = {0}, h_count[n + 1] = {0};
+	int n; cin >> n;
+	char cows[n];
 
-	for (uint i = 1; i <= n; i++) {
-		char temp; cin >> temp;
+	for (uint i = 0; i < n; i++) {
+		cin >> cows[i];
+	}
 
-		g_count[i] = g_count[i - 1];
-		h_count[i] = h_count[i - 1];
-		if (temp == 'G') {
-			g_count[i] += 1;
-		} else if (temp == 'H') {
-			h_count[i] += 1;
-		}
+	long long int ans = 0;
+	for (int i = 0; i < n; i++) {
+		int left = 0, right = 0;
+		for (int lind = i - 1; lind >= 0 && cows[lind] != cows[i]; lind--) {left++;}
+		for (int rind = i + 1; rind < n && cows[rind] != cows[i]; rind++) {right++;}
 
 		#ifdef DEBUG
-		printf("%c: %d\t%d\n", temp, g_count[i], h_count[i]);
+		printf ("Window around %c (at %d) is (%d, %d)\n", cows[i], i, i - left, i + right);
 		#endif
+
+		ans += ((long long int) left)*((long long int) right) + max(0, right - 1) + max(0, left - 1);
 	}
 
-	uint ans = 0;
-	for (int i = 3; i <= n; i++) {
-		for (int j = 0; j <= i - 3; j++) {
-			if (g_count[i] - g_count[j] == 1 || h_count[i] - h_count[j] == 1) {
-				#ifdef DEBUG
-				printf ("Lonely region: (%d, %d); %d Gs and %d Hs\n",
-					j, i, g_count[i] - g_count[j], h_count[i] - h_count[j]);
-				#endif
-				// lonely cow
-				ans++;
-			}
-		}
-	}
 	cout << ans << endl;
 }
