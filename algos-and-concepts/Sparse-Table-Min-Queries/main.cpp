@@ -34,19 +34,14 @@ int main () {
 
 	for (uint i = 0; i < q; i++) {
 		uint start, end; cin >> start >> end; start--; end--; //0-based indexing
-		uint start_two_pow = 1;
-		for (; (start + pow(2, start_two_pow) - 1) < end; start_two_pow++);
-		start_two_pow--;
-
-		uint end_two_pow = 1;
-		for (; (start + pow(2, start_two_pow) - 1) <= end - pow(2, end_two_pow) + 1; end_two_pow++);
-		end_two_pow--;
+		uint k = 1;
+		while (end - start + 1 > pow(2, k)) {k++;} k--;
 
 		#ifdef DEBUG
 		printf ("Two ranges to min from: [%d, %d], [%d, %d]\n",
-			start, start + (uint) pow(2, start_two_pow) - 1, end - (uint) pow(2, end_two_pow) + 1, end);
+			start, start + (uint) pow(2, k) - 1, end - (uint) pow(2, k) + 1, end);
 		#endif
 
-		cout << min (sparse_table[start_two_pow][start], sparse_table[end_two_pow][end - (uint) pow(2, end_two_pow) + 1]) << endl;
+		cout << min (sparse_table[k][start], sparse_table[k][end - (uint) pow(2, k) + 1]) << endl;
 	}
 }
