@@ -2,58 +2,29 @@
 
 using namespace std;
 
+#define rep(i, st, end) for (int i = st; i < end; i++)
+
 int main () {
 	int t; cin >> t;
 	while (t--) {
-		int n; long int k; cin >> n >> k;
-		int arr[n];
+		int n; long long int k; cin >> n >> k;
+		int arr[n], prefix[n + 1];
 
-		long int curr_sum = 0;
-		for (int i = 0; i < n; i++) {
+		long long int total_sum = 0, curr_sum;
+		cin >> arr[0]; prefix[0] = arr[0];
+		rep (i, 1, n) {
 			cin >> arr[i];
-			curr_sum += arr[i];
+			prefix[i] = arr[i] + prefix[i - 1];
 		}
 
-		if (curr_sum <= k) {
-			cout << 0 << endl;
-			continue;
-		}
-		sort(arr, arr + n);
-
-		#ifdef DEBUG
-		int debug_array[n];
-		memcpy(debug_array, arr, sizeof(int) * n);
-		#endif
-
-		bool broken = false;
-		int ind = n - 1;
-
-		int steps = 0;
+		int steps = 0, set_steps = 0;
+		curr_sum = total_sum;
 		while (curr_sum > k) {
-			if ((ind == 0 || arr[ind] == arr[0]) || curr_sum - max(1, n + ind - 1) < curr_sum - arr[ind] - arr[0]) {
-				curr_sum -= max(1, n + ind - 1); // amount of elements affected if we decrement arr[0] by 1
-				#ifdef DEBUG
-				for (int i = n - 1; i >= ind; i--) {
-					debug_array[i]--;
-				}
-				printf ("Excercised collective to lower to %ld\n", curr_sum);
-				#endif
-			} else {
-				curr_sum -= arr[ind] - arr[0];
-				#ifdef DEBUG
-				arr[ind] = arr[0];
-				#endif
-				printf ("Extended collective -= to %d; sum now %ld\n", n - ind, curr_sum);	
-				ind--;
-			}
+			curr_sum = total_sum - set_steps * arr[0] - steps;
 
-			#ifdef DEBUG
-			for (int i = 0; i < n; i++) {cout << debug_array[i] << " ";}
-			cout << endl;
-			#endif
-
-			steps++;
+			set_steps++;
+			steps++; arr[0]--;
 		}
-		cout << steps << endl;
+		cout << set_steps + steps << endl;
 	}
 }
